@@ -13,6 +13,8 @@ type Wish = {
 };
 
 export default function CoverSection() { 
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const [showCover, setShowCover] = useState<boolean>(false);
   const [guestName, setGuestName] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -25,8 +27,30 @@ export default function CoverSection() {
   seconds: 0,
 });
 
+ // 🖼️ Gambar
+  const images: string[] = [
+    "/Asset/gallery1.png",
+    "/Asset/gallery2.png",
+    "/Asset/gallery3.png",
+    "/Asset/gallery4.png",
+    "/Asset/gallery5.png",
+    "/Asset/gallery6.png",
+    "/Asset/gallery7.png",
+    "/Asset/gallery8.png",
+    "/Asset/gallery9.png",
+    "/Asset/gallery10.png",
+  ];
+
+// 📱 Deteksi ukuran layar
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
 useEffect(() => {
-  const targetDate = new Date("2025-12-07T08:00:00+07:00");
+  const targetDate = new Date("2025-12-14T13:00:00+07:00");
 
   const updateCountdown = () => {
     const now = new Date();
@@ -122,7 +146,7 @@ useEffect(() => {
         <div
           className="absolute inset-0 bg-cover bg-center opacity-90"
           style={{
-            backgroundImage: "url('/Asset/bg-left.png')",
+            backgroundImage: "url('/Asset/cover.png')",
             backgroundSize: "cover",  // Memastikan gambar tidak terpotong
             backgroundPosition: "center",
  
@@ -145,13 +169,13 @@ useEffect(() => {
                 transition={{ duration: 1 }}
               >
                 <h4 className="uppercase tracking-widest text-gray-300 text-sm mb-2">
-                  The Wedding Of
+                  UNDUH MANTU
                 </h4>
                 <h1 className="font-script text-4xl md:text-6xl text-white mb-3">
-                  Asri & Arief
+                  Arief & Asri
                 </h1>
                 <p className="text-gray-200 text-sm mb-8">
-                  Sabtu, 07 Desember 2025
+                  Minggu, 14 Desember 2025
                 </p>
 
                 <div className="border-t border-gray-600 w-10 mx-auto mb-8"></div>
@@ -199,13 +223,13 @@ useEffect(() => {
                 transition={{ duration: 1 }}
               >
                 <h4 className="uppercase tracking-widest text-gray-300 text-sm mb-2">
-                  The Wedding Of
+                  UNDUH MANTU
                 </h4>
                 <h1 className="font-script text-4xl md:text-6xl text-white mb-3">
-                  Asri & Arief
+                  Arief & Asri
                 </h1>
                 <p className="text-gray-200 text-sm mb-8">
-                  Sabtu, 07 Desember 2025
+                  Minggu, 14 Desember 2025
                 </p>
 
                 <div className="border-t border-gray-600 w-10 mx-auto mb-8"></div>
@@ -252,74 +276,93 @@ useEffect(() => {
           </motion.section>
         )}
 
-        {/* === SECTION BRIDE & GROOM === */}
-        {showCover && (
-          <motion.section
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="relative z-10 bg-[#f4ece0] text-[#3b2c1a] px-8 py-20"
-          >
-            <div className="flex flex-col gap-10">
-              {/* Groom */}
-              <motion.div
-                className="flex flex-col md:flex-row items-center gap-6"
-                initial={{ opacity: 0, x: -60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1 }}
-              >
-                <img
-                  src="/Asset/ariefgroom.png"
-                  alt="Groom"
-                  className="w-40 h-40 object-cover rounded-lg shadow-lg"
-                />
-                <div className="text-center md:text-left">
-                  <h2 className="text-2xl font-bold mb-1">Arief Rachman Nugraha, S.T.</h2>
-                  {/* <p className="italic mb-1">Rama Putra Utama, S.H</p> */}
-                  <p className="text-sm text-gray-700 mb-2">
-                    The Son of <br /> Madih, S.Sos & Suminar, S.Pd
-                    Yuni
-                  </p>
-                  <a
-                    href="https://instagram.com/ramaputra"
-                    target="_blank"
-                    className="inline-block px-4 py-1 rounded-full text-white bg-[#b08b4f] text-xs font-semibold hover:bg-[#9b773c] transition"
-                  >
-                    @arief
-                  </a>
-                </div>
-              </motion.div>
+  
+{/* === SECTION BRIDE & GROOM === */}
+{showCover && (
+  <motion.section
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+    className="relative z-10 bg-linear-to-b from-[#f8f4ec] to-[#f2e5c9] text-[#3b2c1a] px-6 md:px-16 py-24 overflow-hidden"
+  >
+    {/* Ornamen lembut di background */}
+    <div className="absolute inset-0 bg-[url('/Asset/pattern-floral.png')] bg-repeat opacity-5"></div>
 
-              {/* Bride */}
-              <motion.div
-                className="flex flex-col md:flex-row-reverse items-center gap-6"
-                initial={{ opacity: 0, x: 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1 }}
-              >
-                <img
-                  src="/Asset/AsriBride.png"
-                  alt="Bride"
-                  className="w-40 h-40 object-cover rounded-lg shadow-lg"
-                />
-                <div className="text-center md:text-right">
-                  <h2 className="text-2xl font-bold mb-1">Asri Cikita Putri, S.Ds.</h2>
-                  <p className="italic mb-1">Shinta Estianti, S.Pd</p>
-                  <p className="text-sm text-gray-700 mb-2">
-                    The Daughter of <br /> Drs. Agus Milad Jamal & Drg. Rita Febriyanti
-                  </p>
-                  <a
-                    href="https://instagram.com/shintaest"
-                    target="_blank"
-                    className="inline-block px-4 py-1 rounded-full text-white bg-[#b08b4f] text-xs font-semibold hover:bg-[#9b773c] transition"
-                  >
-                    @asri
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-          </motion.section>
-        )}
+    {/* Gambar Groom dan Bride dalam satu layout vertikal */}
+    <div className="relative flex flex-col items-center justify-center gap-16 md:gap-24">
+      
+      {/* === Groom === */}
+      <motion.div
+        initial={{ opacity: 0, y: -100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="flex flex-col items-center text-center max-w-[350px] sm:max-w-[400px]"
+      >
+        <div className="relative w-56 h-105 sm:w-64 sm:h-80 md:w-[300px] md:h-[500px] lg:w-[400px] lg:h-[805px] rounded-3xl overflow-hidden shadow-lg border-4 border-[#d6c5a5]">
+          <img
+            src="/Asset/ariefgroom.png"
+            alt="Groom"
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-50"></div>
+        </div>
+
+        <div className="mt-6">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Arief Rachman Nugraha, S.T.</h2>
+          <p className="text-sm sm:text-base text-gray-700 mb-2 leading-relaxed">
+            Anak laki-laki dari <br />
+            <span className="italic text-[#6b533b]">
+              Madih, S.Sos & Suminar, S.Pd
+            </span>
+          </p>
+        </div>
+      </motion.div>
+
+      {/* === Bride === */}
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="flex flex-col items-center text-center max-w-[350px] sm:max-w-[400px]"
+      >
+        <div className="relative w-56 h-100 sm:w-64 sm:h-80 md:w-[300px] md:h-[400px] lg:w-[400px] lg:h-[800px] rounded-3xl overflow-hidden shadow-lg border-4 border-[#d6c5a5]">
+          <img
+            src="/Asset/AsriBride.png"
+            alt="Bride"
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-50"></div>
+        </div>
+
+        <div className="mt-6">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Asri Cikita Putri, S.Ds.</h2>
+          <p className="text-sm sm:text-base text-gray-700 mb-2 leading-relaxed">
+            Anak perempuan dari <br />
+            <span className="italic text-[#6b533b]">
+              Drs. Agus Milad Jamal & Drg. Rita Febriyanti
+            </span>
+          </p>
+        </div>
+      </motion.div>
+    </div>
+
+    {/* Caption bawah */}
+    <motion.p
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ delay: 0.3, duration: 1 }}
+      className="text-center mt-16 text-sm sm:text-base text-gray-600 italic"
+    >
+      “Dua hati yang saling mencintai, kini bersatu dalam satu janji suci.”
+    </motion.p>
+  </motion.section>
+)}
+
+
+
+
+
+
 
         {/* === SECTION OUR LOVE STORY === */}
         {showCover && (
@@ -340,10 +383,10 @@ useEffect(() => {
                 transition={{ duration: 1 }}
                 className="text-3xl md:text-5xl font-script text-[#b08b4f] mb-3"
               >
-                Our Love Story
+                Kisah Cinta Arief & Asri
               </motion.h2>
               <p className="text-sm md:text-base text-gray-700">
-                Perjalanan cinta kami dimulai dari sebuah pertemuan sederhana hingga menjadi takdir yang indah.
+                Perjalanan cinta kami dimulai dari sebuah pertemuan yang tak disangka-sangka hingga menjadi takdir yang indah.
               </p>
               <div className="w-24 h-0.5 bg-[#b08b4f] mx-auto mt-4 rounded-full"></div>
             </div>
@@ -366,25 +409,24 @@ useEffect(() => {
 
                 {/* Tahun & Cerita */}
                 <h3 className="text-[#b08b4f] text-2xl font-semibold mb-2 font-serif tracking-wide">
-                  First Meeting
+                  Pertemuan Pertama
                 </h3>
                 <p className="text-sm leading-relaxed text-[#4a3b2a] px-2">
-                  Kami bertemu di sebuah acara kampus. Meski singkat, kami merasa saling tertarik dan ingin mengenal
-                  lebih jauh satu sama lain. Sejak itu, kami mulai menghabiskan waktu bersama dan semakin dekat.
+                  Kami mengetahui satu sama lain dari dating apps dan memutuskan untuk bertemu. Berawal dari doa, sedikit keberanian, dan waktu yang tepat. Awalnya kami tak berharap banyak, tapi semakin sering berbincang, semuanya terasa natural. Dari obrolan sederhana, perlahan tumbuh rasa yang nyata dan hangat.
                 </p>
 
                 <h3 className="text-[#b08b4f] text-2xl font-semibold mb-2 font-serif tracking-wide mt-10">
-                  Together as One
+                  Menuju Satu Tujuan
                 </h3>
                 <p className="text-sm leading-relaxed text-[#4a3b2a] px-2">
-                  As our hearts grew closer, we introduced each other to our families. It was our way of showing that this love was meant to be taken seriously.
+                  Semakin kami terasa dekat, kami memutuskan untuk melangkah lebih serius dengan saling mempertemukan orang tua. Bukan sekadar perkenalan, tapi bentuk kesungguhan bahwa kami siap berkomitmen dan membangun masa depan bersama.
                 </p>
 
                 <h3 className="text-[#b08b4f] text-2xl font-semibold mb-2 font-serif tracking-wide mt-10">
-                  Our Promise
+                  Janji Setia
                 </h3>
                 <p className="text-sm leading-relaxed text-[#4a3b2a] px-2">
-                  Despite our differences and challenges, we still choose to nurture this love together. Now we begin a new chapter filled with love, faith, purpose, and a life-long promise.
+                  Seiring berjalannya waktu, kami belajar, bertumbuh, dan terbentuk bersama setiap kali melewati berbagai cerita dan pengalaman. Di antara segala perubahan dan tantangan, kami menemukan keyakinan satu sama lain. Kini kami siap memulai babak baru. Kisah cinta yang semoga abadi, di dunia dan di akhirat nanti.
                 </p>
               </motion.div>
             </div>
@@ -420,11 +462,11 @@ useEffect(() => {
               className="relative mb-16"
             >
               <h2 className="text-3xl md:text-5xl font-script text-[#b08b4f] mb-3">
-                Wedding Schedule
+                Jadwal Acara
               </h2>
               <div className="flex justify-center gap-2 items-center text-gray-700 text-xs uppercase tracking-widest">
                 <span className="w-10 h-px bg-[#b08b4f]"></span>
-                <span>Countdown to Our Big Day</span>
+                <span>Menuju Momen Indah</span>
                 <span className="w-10 h-px bg-[#b08b4f]"></span>
               </div>
             </motion.div>
@@ -469,9 +511,9 @@ useEffect(() => {
             <h3 className="text-lg uppercase tracking-widest font-semibold text-[#b08b4f] mb-2">
               Wedding Ceremony
             </h3>
-            <p className="text-sm font-medium">Sabtu, 07 Desember 2025</p>
-            <p className="text-sm text-gray-700">AR-RODA Functional Hall Darussalam</p>
-            <div className="border-t border-[#b08b4f]/50 w-24 mx-auto mt-6"></div>
+            <p className="text-sm font-medium">Minggu, 14 Desember 2025</p>
+            <p className="text-sm text-gray-700">PT Mustika Ratu</p>
+            <div className="border-t border-[#b08b4f]/50 w-24 mx-auto mt-2"></div>
           </motion.div>
 
           {/* Embed Google Maps */}
@@ -482,7 +524,7 @@ useEffect(() => {
             className="mb-10 overflow-hidden rounded-2xl border border-[#d6c5a5]/50 shadow-sm"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.0534655755223!2d106.95895547380313!3d-6.256687393731815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698d1c62f0a44b%3A0x3d6e710a4fa402a5!2sAr%20Roda%20Function%20Hall%20Darussalam!5e0!3m2!1sen!2sid!4v1762183176355!5m2!1sen!2sid"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253879.6217361549!2d106.58073806744822!3d-6.148278420914985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed2f94de1bc9%3A0x40df2a2b5c59cfb3!2sPT%20Mustika%20Ratu!5e0!3m2!1sid!2sid!4v1762534950205!5m2!1sid!2sid"
               width="100%"
               height="300"
               style={{ border: 0 }}
@@ -500,9 +542,9 @@ useEffect(() => {
             className="mb-10 text-center"
           >
             <h3 className="text-lg uppercase tracking-widest font-semibold text-[#b08b4f] mb-2">
-              Akad Nikah
+              Unduh Mantu
             </h3>
-            <p className="text-sm text-gray-700">08.00 - 10.00 WIB</p>
+            <p className="text-sm text-gray-700">13.00 - 16.00 WIB</p>
             <div className="border-t border-[#b08b4f]/50 w-24 mx-auto mt-6"></div>
           </motion.div>
 
@@ -514,14 +556,14 @@ useEffect(() => {
             className="text-center"
           >
             <h3 className="text-lg uppercase tracking-widest font-semibold text-[#b08b4f] mb-2">
-              Resepsi
+              Menuju Satu Tujuan
             </h3>
-            <p className="text-sm text-gray-700 mb-3">13.00 - 15.00 WIB</p>
+            {/* <p className="text-sm text-gray-700 mb-3">13.00 - 15.00 WIB</p> */}
 
             {/* Tombol Aksi */}
             <div className="flex justify-center gap-4 mt-4">
               <a
-                href="https://maps.app.goo.gl/BshsUwp68swqtQFCA"
+                href="https://maps.app.goo.gl/HJUQ6oRAfDdQthBL8"
                 target="_blank"
                 className="bg-[#b08b4f] hover:bg-[#9b773c] transition px-4 py-2 rounded-full text-white text-xs font-semibold flex items-center gap-2"
               >
@@ -533,8 +575,8 @@ useEffect(() => {
           </motion.section>
         )}
 
-        {/* === SECTION OUR GALLERY === */}
-        {showCover && (
+    {/* === SECTION OUR GALLERY === */}
+    {showCover && (
           <motion.section
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -552,7 +594,7 @@ useEffect(() => {
                 transition={{ duration: 1 }}
                 className="text-3xl md:text-5xl font-script text-[#b08b4f] mb-3"
               >
-                Our Gallery
+                Gallery Kami
               </motion.h2>
               <div className="flex justify-center items-center gap-3 text-gray-700 text-xs uppercase tracking-widest">
                 <span className="w-10 h-px bg-[#b08b4f]"></span>
@@ -566,64 +608,99 @@ useEffect(() => {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1 }}
-              className="relative max-w-3xl mx-auto rounded-3xl overflow-hidden shadow-lg border border-[#d6c5a5] mb-16"
+              className="relative max-w-3xl mx-auto rounded-3xl overflow-hidden shadow-lg border-2 border-[#d6c5a5] mb-16"
             >
               <video
                 src="/Asset/weddingvideo.mp4"
-                autoPlay
+                controls       // 🎬 Tambahkan kontrol play/pause
                 muted
                 loop
                 playsInline
                 className="w-full h-[300px] object-cover"
               ></video>
+              
               <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-[#000000a0] via-transparent to-transparent text-white text-sm py-3">
-                <p>“Highlight Pernikahan Rama & Shinta”</p>
+                <p>“Cuplikan Momen Arief & Asri”</p>
               </div>
             </motion.div>
 
-            {/* === Photo Slideshow === */}
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-              className="relative max-w-5xl mx-auto overflow-hidden"
-            >
-              <motion.div
-                className="flex gap-4 cursor-grab"
-                drag="x"
-                dragConstraints={{ left: -900, right: 0 }}
-                animate={{
-                  x: [0, -300, -600, 0],
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 20,
-                  ease: "linear",
-                }}
-              >
-                {[
-                  "/Asset/gallery1.png",
-                  "/Asset/gallery2.png",
-                  "/Asset/gallery3.png",
-                ].map((src, i) => (
-                  <div
-                    key={i}
-                    className="relative min-w-[300px] sm:min-w-[400px] h-[500px] overflow-hidden rounded-3xl shadow-md border border-[#d6c5a5]"
-                  >
-                    <img
-                      src={src}
-                      alt={`Gallery ${i + 1}`}
-                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-700 flex items-end justify-center pb-4">
-                      <p className="text-white text-xs italic">
-                        Momen {i + 1} yang penuh cinta 💕
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="relative max-w-6xl mx-auto overflow-hidden px-4"
+    >
+      {/* 🎞️ SLIDESHOW */}
+      <motion.div
+        className="flex gap-4 cursor-grab"
+        drag="x"
+        dragConstraints={{ left: -1200, right: 0 }}
+        animate={{ x: [0, -400, -800, -1200, 0] }}
+        transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+      >
+        {images.map((src, i) => (
+          <div
+            key={i}
+            onClick={() => isMobile && setSelectedIndex(i)} // ✅ aktif hanya di mobile
+            className="relative min-w-[200px] sm:min-w-[300px] md:min-w-[400px] h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-3xl shadow-md border border-[#d6c5a5] hover:shadow-lg transition-all duration-500"
+          >
+            <img
+              src={src}
+              alt={`Gallery ${i + 1}`}
+              className="w-full h-full object-cover hover:scale-110 transition-transform duration-700 cursor-pointer"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-700 flex items-end justify-center pb-4">
+              <p className="text-white text-xs italic">
+                Momen {i + 1} yang penuh cinta 💕
+              </p>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* 💡 LIGHTBOX (aktif hanya di mobile) */}
+      {isMobile && selectedIndex !== null && (
+        <div className="fixed inset-0 z-9999 bg-black/95 flex flex-col items-center justify-center px-4 backdrop-blur-sm">
+          <img
+            src={images[selectedIndex]}
+            alt="Preview"
+            className="max-w-[90%] max-h-[80%] rounded-2xl shadow-2xl object-contain transition-all duration-500"
+          />
+
+          {/* ❌ CLOSE */}
+          <button
+            onClick={() => setSelectedIndex(null)}
+            className="absolute top-6 right-6 bg-white/20 hover:bg-white/40 text-white text-2xl font-bold w-10 h-10 rounded-full flex items-center justify-center transition-all"
+          >
+            ✕
+          </button>
+
+          {/* ⬅️ PREV */}
+          <button
+            onClick={() =>
+              setSelectedIndex((prev) =>
+                prev === 0 ? images.length - 1 : (prev ?? 0) - 1
+              )
+            }
+            className="absolute left-6 text-white bg-[#ffffff1a] hover:bg-white/30 rounded-full p-3 text-2xl transition-all select-none"
+          >
+            ⬅️
+          </button>
+
+          {/* ➡️ NEXT */}
+          <button
+            onClick={() =>
+              setSelectedIndex((prev) =>
+                prev === images.length - 1 ? 0 : (prev ?? 0) + 1
+              )
+            }
+            className="absolute right-6 text-white bg-[#ffffff1a] hover:bg-white/30 rounded-full p-3 text-2xl transition-all select-none"
+          >
+            ➡️
+          </button>
+        </div>
+      )}
+    </motion.div>
 
             {/* Footer text */}
             <motion.p
@@ -632,12 +709,13 @@ useEffect(() => {
               transition={{ delay: 0.3, duration: 1 }}
               className="mt-16 text-sm italic text-gray-600"
             >
-              “Setiap tawa, setiap pelukan, dan setiap tatapan — semuanya abadi dalam kenangan indah kami.”
+              “Setiap tatapan, setiap tawa, setiap cerita, dan setiap kebersamaan, semuanya kan abadi dalam kenangan indah kami.”
             </motion.p>
           </motion.section>
-        )}
+    )}
 
- <motion.section
+    {/* === SECTION WISHES === */}
+    <motion.section
       initial={{ opacity: 0, y: 80 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
@@ -649,11 +727,9 @@ useEffect(() => {
       {/* Header */}
       <div className="relative mb-12">
         <h2 className="text-3xl md:text-5xl font-script text-[#b08b4f] mb-3">
-          Send Your Wishes
+          Kirim Ucapan dan Doa
         </h2>
         <div className="flex justify-center items-center gap-3 text-gray-700 text-xs uppercase tracking-widest">
-          <span className="w-10 h-px bg-[#b08b4f]"></span>
-          <span>Kirim Ucapan & Doa</span>
           <span className="w-10 h-px bg-[#b08b4f]"></span>
         </div>
       </div>
@@ -750,8 +826,8 @@ useEffect(() => {
         transition={{ delay: 0.3, duration: 1 }}
         className="mt-12 text-sm italic text-gray-600"
       >
-        “Doa dan ucapan Anda sangat berarti bagi kami — terima kasih telah
-        berbagi kebahagiaan di hari spesial ini.”
+        “Doa dan ucapan Bapak/Ibu/Saudara/i, dan teman-teman sekalian, sangat berarti bagi kami.
+          Terima kasih telah berbagi kebahagiaan di hari yang indah ini.”
       </motion.p>
     </motion.section>
 
@@ -767,7 +843,7 @@ useEffect(() => {
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/Asset/sectionakhir.png')",
+          backgroundImage: "url('/Asset/footer.png')",
           filter: "brightness(60%)",
         }}
       ></div>
@@ -795,21 +871,15 @@ useEffect(() => {
           transition={{ duration: 1 }}
           className="font-script text-4xl md:text-5xl text-[#f5dcb2] mb-2"
         >
-          Asri & Arief
+          Arief & Asri
         </motion.h2>
 
-        <p className="text-xs text-gray-300 italic mb-8">beserta keluarga</p>
+        {/* <p className="text-xs text-gray-300 italic mb-8">beserta keluarga</p> */}
 
         <div className="border-t border-[#f5dcb2]/50 w-16 mx-auto mb-3"></div>
-        <p className="text-[10px] tracking-widest uppercase text-[#f5dcb2]/70">
-          All rights reserved © helloguest.id
-        </p>
       </div>
     </motion.section>
-
-
-
-      </section>
+    </section>
       
 
       {/* === RIGHT SIDE (tetap) === */}
@@ -842,21 +912,12 @@ useEffect(() => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4, duration: 1.2 }}
         >
-          <p className="text-gray-200 text-sm md:text-base leading-relaxed mb-12">
+          <p className="text-gray-200 text-sm md:text-base leading-relaxed mb-40">
             Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
             untukmu istri-istri dari jenismu sendiri, supaya kamu merasa
             ketenangan dan ketentraman hatimu, dan dijadikan-Nya di antaramu
             rasa kasih sayang.
           </p>
-        </motion.div>
-
-        <motion.div
-          className="z-10 text-gray-400 text-xs"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          © All rights reserved by helloGuest
         </motion.div>
       </section>
     </main>
