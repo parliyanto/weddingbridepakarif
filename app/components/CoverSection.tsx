@@ -21,7 +21,15 @@ const CoverSectionComponent = dynamic(() => import('./CoverSection'), {
   ssr: false,
 });
 
-export default function CoverSection() { 
+export default function CoverSectionWrapper() { 
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CoverSection />
+    </Suspense>
+  );
+}
+
+  function CoverSection() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [showCover, setShowCover] = useState<boolean>(false);
@@ -43,6 +51,7 @@ export default function CoverSection() {
 
 
  const searchParams = useSearchParams();
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const guestNameParam = searchParams.get("guest_name");
@@ -164,7 +173,6 @@ useEffect(() => {
 
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
     <main
     className={`h-screen grid grid-cols-1 md:grid-cols-[1.1fr_1.9fr] font-serif text-white transition-all duration-700 ${
       showCover ? "overflow-auto" : "overflow-hidden"
@@ -957,6 +965,5 @@ useEffect(() => {
         </motion.div>
       </section>
     </main>
-    </Suspense>
   );
 }
