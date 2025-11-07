@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,13 +15,17 @@ type Wish = {
   created_at: string;
 };
 
+// Gunakan dynamic import dengan ssr: false untuk menonaktifkan SSR
+const CoverSectionComponent = dynamic(() => import('./CoverSection'), {
+  ssr: false,
+});
+
 export default function CoverSection() { 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [showCover, setShowCover] = useState<boolean>(false);
   const [guestName, setGuestName] = useState<string>("");
-  const [displayName, setDisplayName] = useState<string>(""); // Nama yang akan ditampilkan
-  const searchParams = useSearchParams(); // Ambil search params dari URL
+
   const [message, setMessage] = useState<string>("");
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,25 +36,30 @@ export default function CoverSection() {
   seconds: 0,
 });
 
-// Ambil parameter 'guest_name' dan 'partner' dari URL
-  const guestNameParam = searchParams.get("guest_name");
-  const isPartner = searchParams.get("partner") === "true"; // Cek apakah ada parameter "partner" yang diset ke "true"
+  // Gunakan useSearchParams() di dalam useEffect() untuk memastikan hanya di client-side
+  const [guestNameParam, setGuestNameParam] = useState<string | null>(null);
+  const [isPartner, setIsPartner] = useState<boolean>(false);
 
-useEffect(() => {
-    if (guestNameParam) {
-      // Format nama tamu dengan huruf kapital di awal setiap kata
+
+ const searchParams = useSearchParams();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const guestNameParam = searchParams.get("guest_name");
+      const isPartner = searchParams.get("partner") === "true"; 
+
+      // Pastikan guestNameParam ada sebelum diproses
       const formattedName = guestNameParam
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+        ? guestNameParam.split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")
+        : "";  // Jika guestNameParam null, set ke string kosong
       
-      // Jika ada parameter partner, tambahkan "& Partner"
       const finalName = isPartner ? `${formattedName} & Partner` : formattedName;
-      setGuestName(finalName);
-      setDisplayName(finalName); // Menampilkan nama dengan atau tanpa partner
+      setGuestName(finalName);  // Set nama tamu
     }
-  }, [guestNameParam, isPartner]);
+  }, [searchParams]);
 
+  
  // 🖼️ Gambar
   const images: string[] = [
     "/Asset/gallery1.png",
