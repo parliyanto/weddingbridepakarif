@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "next/navigation"; // Import useSearchParams
+
 
 
 type Wish = {
@@ -17,6 +19,8 @@ export default function CoverSection() {
   const [isMobile, setIsMobile] = useState(false);
   const [showCover, setShowCover] = useState<boolean>(false);
   const [guestName, setGuestName] = useState<string>("");
+  const [displayName, setDisplayName] = useState<string>(""); // Nama yang akan ditampilkan
+  const searchParams = useSearchParams(); // Ambil search params dari URL
   const [message, setMessage] = useState<string>("");
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,6 +30,25 @@ export default function CoverSection() {
   minutes: 0,
   seconds: 0,
 });
+
+// Ambil parameter 'guest_name' dan 'partner' dari URL
+  const guestNameParam = searchParams.get("guest_name");
+  const isPartner = searchParams.get("partner") === "true"; // Cek apakah ada parameter "partner" yang diset ke "true"
+
+useEffect(() => {
+    if (guestNameParam) {
+      // Format nama tamu dengan huruf kapital di awal setiap kata
+      const formattedName = guestNameParam
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      
+      // Jika ada parameter partner, tambahkan "& Partner"
+      const finalName = isPartner ? `${formattedName} & Partner` : formattedName;
+      setGuestName(finalName);
+      setDisplayName(finalName); // Menampilkan nama dengan atau tanpa partner
+    }
+  }, [guestNameParam, isPartner]);
 
  // 🖼️ Gambar
   const images: string[] = [
@@ -183,7 +206,7 @@ useEffect(() => {
                 <p className="text-sm text-gray-300 mb-1">
                   Kepada Yth. Bapak/Ibu/Saudara/i:
                 </p>
-                <h3 className="text-lg font-semibold mb-1">Tamu Undangan</h3>
+                <h3 className="text-lg font-semibold mb-1">{guestName}</h3>
                 <p className="text-xs text-gray-400 mb-5">
                   Mohon maaf jika ada kesalahan penulisan nama dan gelar
                 </p>
@@ -237,7 +260,7 @@ useEffect(() => {
                 <p className="text-sm text-gray-300 mb-1">
                   Kepada Yth. Bapak/Ibu/Saudara/i:
                 </p>
-                <h3 className="text-lg font-semibold mb-1">Tamu Undangan</h3>
+                <h3 className="text-lg font-semibold mb-1">{guestName}</h3>
                 <p className="text-xs text-gray-400">
                   Mohon maaf jika ada kesalahan penulisan nama dan gelar
                 </p>
@@ -748,6 +771,7 @@ useEffect(() => {
         <input
           type="text"
           value={guestName}
+          readOnly={!!guestName} // Jika nama tamu sudah ada, buat field ini hanya baca
           onChange={(e) => setGuestName(e.target.value)}
           placeholder="Masukkan nama Anda"
           className="w-full mb-4 border border-[#d6c5a5] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#b08b4f]/50"
