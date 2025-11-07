@@ -121,7 +121,12 @@ useEffect(() => {
         <div className="absolute inset-0">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-90"
-          style={{ backgroundImage: "url('/Asset/bg-left.png')" }}
+          style={{
+            backgroundImage: "url('/Asset/bg-left.png')",
+            backgroundSize: "cover",  // Memastikan gambar tidak terpotong
+            backgroundPosition: "center",
+ 
+          }}
         ></div>
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"></div>
         </div>
@@ -143,7 +148,7 @@ useEffect(() => {
                   The Wedding Of
                 </h4>
                 <h1 className="font-script text-4xl md:text-6xl text-white mb-3">
-                  Asri & Arif
+                  Asri & Arief
                 </h1>
                 <p className="text-gray-200 text-sm mb-8">
                   Sabtu, 07 Desember 2025
@@ -187,7 +192,7 @@ useEffect(() => {
             {showCover && (
               <motion.div
                 key="cover"
-                className="mb-16 max-w-sm"
+                className="mb-32 max-w-sm"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
