@@ -1,7 +1,8 @@
 "use client";
 
+
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation"; // Import useSearchParams
@@ -59,7 +60,7 @@ export default function CoverSection() {
     }
   }, [searchParams]);
 
-  
+
  // 🖼️ Gambar
   const images: string[] = [
     "/Asset/gallery1.png",
@@ -163,6 +164,7 @@ useEffect(() => {
 
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <main
     className={`h-screen grid grid-cols-1 md:grid-cols-[1.1fr_1.9fr] font-serif text-white transition-all duration-700 ${
       showCover ? "overflow-auto" : "overflow-hidden"
@@ -955,5 +957,6 @@ useEffect(() => {
         </motion.div>
       </section>
     </main>
+    </Suspense>
   );
 }
