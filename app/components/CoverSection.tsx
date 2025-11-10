@@ -552,7 +552,7 @@ useEffect(() => {
             className="mb-10 text-center"
           >
             <h3 className="text-lg uppercase tracking-widest font-semibold text-[#b08b4f] mb-2">
-              Wedding Ceremony
+              Acara Unduh Mantu
             </h3>
             <p className="text-sm font-medium">Minggu, 14 Desember 2025</p>
             <p className="text-sm text-gray-700">PT Mustika Ratu</p>
@@ -598,10 +598,6 @@ useEffect(() => {
             transition={{ delay: 0.2, duration: 1 }}
             className="text-center"
           >
-            <h3 className="text-lg uppercase tracking-widest font-semibold text-[#b08b4f] mb-2">
-              Menuju Satu Tujuan
-            </h3>
-            {/* <p className="text-sm text-gray-700 mb-3">13.00 - 15.00 WIB</p> */}
 
             {/* Tombol Aksi */}
             <div className="flex justify-center gap-4 mt-4">
@@ -637,7 +633,7 @@ useEffect(() => {
                 transition={{ duration: 1 }}
                 className="text-3xl md:text-5xl font-script text-[#b08b4f] mb-3"
               >
-                Gallery Kami
+                Galeri Kami
               </motion.h2>
               <div className="flex justify-center items-center gap-3 text-gray-700 text-xs uppercase tracking-widest">
                 <span className="w-10 h-px bg-[#b08b4f]"></span>
@@ -677,9 +673,9 @@ useEffect(() => {
       <motion.div
         className="flex gap-4 cursor-grab"
         drag="x"
-        dragConstraints={{ left: -1200, right: 0 }}
-        animate={{ x: [0, -400, -800, -1200, 0] }}
-        transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+        dragConstraints={{ left: -((images.length * 400) + (images.length * 16)), right: 0 }}
+        animate={{ x: [0, -((images.length - 4) * 420), 0] }} // kira-kira geser sepanjang semua gambar
+        transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
       >
         {images.map((src, i) => (
           <div
