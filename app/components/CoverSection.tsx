@@ -2,7 +2,7 @@
 
 
 import dynamic from "next/dynamic";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation"; // Import useSearchParams
@@ -20,6 +20,7 @@ type Wish = {
 const CoverSectionComponent = dynamic(() => import('./CoverSection'), {
   ssr: false,
 });
+
 
 export default function CoverSectionWrapper() { 
   return (
@@ -44,6 +45,49 @@ export default function CoverSectionWrapper() {
   minutes: 0,
   seconds: 0,
 });
+
+// 🎵 Musik & Control
+const [isPlaying, setIsPlaying] = useState(false);
+const audioRef = useRef<HTMLAudioElement | null>(null);
+
+useEffect(() => {
+  const audio = new Audio("/Asset/backsound.mp3");
+  audio.loop = true;
+  audio.volume = 0.5;
+  audio.currentTime = 48;
+  audioRef.current = audio;
+
+  return () => {
+    audio.pause();
+  };
+}, []);
+
+// fungsi umum play/pause
+const togglePlay = () => {
+  if (!audioRef.current) return;
+  if (isPlaying) {
+    audioRef.current.pause();
+  } else {
+    if (audioRef.current.currentTime < 48) {
+      audioRef.current.currentTime = 48;
+    }
+    audioRef.current.play();
+  }
+  setIsPlaying(!isPlaying);
+};
+
+// fungsi khusus untuk tombol "Buka Undangan"
+const handleOpenInvitation = () => {
+  if (!audioRef.current) return;
+  audioRef.current.play().then(() => {
+    setIsPlaying(true);
+  }).catch((err: unknown) => {
+  console.warn("Autoplay diblokir browser:", err);
+});
+};
+
+
+
 
   // Gunakan useSearchParams() di dalam useEffect() untuk memastikan hanya di client-side
   const [guestNameParam, setGuestNameParam] = useState<string | null>(null);
@@ -81,7 +125,7 @@ export default function CoverSectionWrapper() {
     "/Asset/gallery7.png",
     "/Asset/gallery8.png",
     "/Asset/gallery9.png",
-    "/Asset/gallery10.png",
+    "/Asset/gallery11.png",
   ];
 
 // 📱 Deteksi ukuran layar
@@ -233,7 +277,10 @@ useEffect(() => {
 
                 {/* Tombol buka undangan */}
                 <motion.button
-                  onClick={() => setShowCover(true)}
+                  onClick={() => {
+                    handleOpenInvitation(); // 🔊 mulai musik saat klik
+                    setShowCover(true);     // 🎬 lanjut buka undangan
+                  }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.97 }}
                   className="relative group overflow-hidden rounded-full px-8 py-3 font-semibold tracking-wide text-black bg-[#d4af37] shadow-md hover:shadow-gold/40 transition-all duration-700 cursor-pointer"
@@ -254,6 +301,7 @@ useEffect(() => {
                     <span>BUKA UNDANGAN</span>
                   </div>
                 </motion.button>
+
               </motion.div>
             ) : null}
             {showCover && (
@@ -555,6 +603,7 @@ useEffect(() => {
               Acara Unduh Mantu
             </h3>
             <p className="text-sm font-medium">Minggu, 14 Desember 2025</p>
+            <p className="text-sm font-semibold">11:00 - 16:00</p>
             <p className="text-sm text-gray-700">PT Mustika Ratu</p>
             <div className="border-t border-[#b08b4f]/50 w-24 mx-auto mt-2"></div>
           </motion.div>
@@ -584,11 +633,6 @@ useEffect(() => {
             transition={{ duration: 1 }}
             className="mb-10 text-center"
           >
-            <h3 className="text-lg uppercase tracking-widest font-semibold text-[#b08b4f] mb-2">
-              Unduh Mantu
-            </h3>
-            <p className="text-sm text-gray-700">13.00 - 16.00 WIB</p>
-            <div className="border-t border-[#b08b4f]/50 w-24 mx-auto mt-6"></div>
           </motion.div>
 
           {/* Resepsi */}
@@ -960,6 +1004,40 @@ useEffect(() => {
           </p>
         </motion.div>
       </section>
+
+      {/* 🎵 Floating Music Control */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="fixed bottom-6 left-6 z-9999"
+      >
+        <button
+          onClick={togglePlay}
+          className="w-12 h-12 rounded-full bg-[#d4af37]/80 hover:bg-[#b08b4f] 
+                    flex items-center justify-center text-white shadow-lg
+                    backdrop-blur-sm border border-white/30 transition-all duration-300"
+        >
+          {isPlaying ? (
+            // 🎶 Animasi equalizer
+            <motion.div
+              className="flex gap-0.5"
+              animate={{ scaleY: [1, 1.4, 1] }}
+              transition={{ repeat: Infinity, duration: 0.7, ease: "easeInOut" }}
+            >
+              <div className="w-[3px] h-2.5 bg-white rounded"></div>
+              <div className="w-[3px] h-4 bg-white rounded"></div>
+              <div className="w-[3px] h-2 bg-white rounded"></div>
+            </motion.div>
+          ) : (
+            // ▶️ Icon Play
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              className="w-0 h-0 border-t-8 border-b-8 border-l-12 border-l-white"
+            ></motion.div>
+          )}
+        </button>
+      </motion.div>
     </main>
   );
 }
