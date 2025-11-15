@@ -382,15 +382,23 @@ useEffect(() => {
 
       {/* ✨ SHIMMER EFFECT */}
       <div className="absolute inset-0 animate-pulse opacity-60">
-        <svg width="42" height="42" viewBox="0 0 24 24">
-          <path
-            d="M12 4v16m0 0l-6-6m6 6l6-6"
-            stroke="#f2e3b3"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg
+  width="42"
+  height="42"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  className="drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]"
+>
+  <path
+    d="M12 4v16m0 0l-6-6m6 6l6-6"
+    stroke="#d8b86b"
+    strokeWidth={2.4}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  />
+</svg>
+
       </div>
     </motion.div>
   </motion.div>
