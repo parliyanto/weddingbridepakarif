@@ -47,6 +47,8 @@ export default function CoverSectionWrapper() {
   seconds: 0,
 });
 
+
+
 // 🎵 Musik & Control
 const [isPlaying, setIsPlaying] = useState(false);
 const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -115,6 +117,7 @@ const handleOpenInvitation = () => {
   }, [searchParams]);
 
 
+  const [isDragging, setIsDragging] = useState(false);
  // 🖼️ Gambar
   const images: string[] = [
     "/Asset/gallery1.png",
@@ -350,7 +353,7 @@ useEffect(() => {
   animate={{ opacity: 1, y: 0 }}
   exit={{ opacity: 0 }}
   transition={{ duration: 1 }}
-  className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 ${
+  className={`absolute bottom-24 md:bottom-10 left-1/2 -translate-x-1/2 z-20 ${
     scrollDownHidden ? "opacity-0" : "opacity-100"
   } transition-opacity duration-700`}
 >
@@ -779,33 +782,39 @@ useEffect(() => {
     >
       {/* 🎞️ SLIDESHOW */}
       <motion.div
-        className="flex gap-4 cursor-grab"
-        drag="x"
-        dragConstraints={{ left: -((images.length * 400) + (images.length * 16)), right: 0 }}
-        animate={{ x: [0, -((images.length - 4) * 420), 0] }} // kira-kira geser sepanjang semua gambar
-        transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-      >
-        {images.map((src, i) => (
-          <div
-            key={i}
-            onClick={() => isMobile && setSelectedIndex(i)} // ✅ aktif hanya di mobile
-            className="relative min-w-[200px] sm:min-w-[300px] md:min-w-[400px] h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-3xl shadow-md border border-[#d6c5a5] hover:shadow-lg transition-all duration-500"
-          >
-            <Image
-                src={src}
-                alt={`Gallery ${i + 1}`}
-                fill
-                sizes="400px"
-                className="object-cover hover:scale-110 transition-transform duration-700 cursor-pointer"
-              />
-            <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-700 flex items-end justify-center pb-4">
-              <p className="text-white text-xs italic">
-                Momen {i + 1} yang penuh cinta 💕
-              </p>
-            </div>
-          </div>
-        ))}
-      </motion.div>
+  className="flex gap-4 cursor-grab"
+  drag="x"
+  dragConstraints={{ left: -((images.length * 400) + (images.length * 16)), right: 0 }}
+  animate={
+    !isDragging
+      ? { x: [0, -((images.length - 4) * 420), 0] }
+      : { x: 0 }
+  }
+  onDragStart={() => setIsDragging(true)}
+  onDragEnd={() => setTimeout(() => setIsDragging(false), 300)}
+  transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+>
+  {images.map((src, i) => (
+    <div
+      key={i}
+      className="relative min-w-[200px] sm:min-w-[300px] md:min-w-[400px] 
+                 h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-3xl 
+                 shadow-md border border-[#d6c5a5]"
+    >
+      <Image
+        src={src}
+        alt=""
+        fill
+        className="object-cover"
+      />
+    </div>
+  ))}
+
+  {/* Pembatas anti ruang kosong */}
+  <div className="min-w-[420px] h-[300px] sm:h-[400px] md:h-[500px]" />
+
+</motion.div>
+
 
       {/* 💡 LIGHTBOX (aktif hanya di mobile) */}
       {isMobile && selectedIndex !== null && (
