@@ -2,8 +2,9 @@
 
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Suspense, useEffect, useState, useRef } from "react";
-import { supabase } from "../lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation"; // Import useSearchParams
 
@@ -215,6 +216,17 @@ useEffect(() => {
   }
 };
 
+const [scrollDownHidden, setScrollDownHidden] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 20) setScrollDownHidden(true);
+  };
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+
 
   return (
     <main
@@ -332,6 +344,58 @@ useEffect(() => {
                 <p className="text-xs text-gray-400">
                   Mohon maaf jika ada kesalahan penulisan nama dan gelar
                 </p>
+                {showCover && (
+ <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 1 }}
+    className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 ${
+      scrollDownHidden ? "opacity-0" : "opacity-100"
+    } transition-opacity duration-700`}
+  >
+    <motion.div
+      animate={{ y: [0, 12, 0] }}
+      transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+      className="cursor-pointer relative"
+      onClick={() =>
+        window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+      }
+    >
+      {/* GOLD ELEGANT ARROW */}
+      <svg 
+        width="42" 
+        height="42" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        className="drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]"
+      >
+        <path 
+          d="M12 4v16m0 0l-6-6m6 6l6-6" 
+          stroke="#d8b86b" 
+          stroke-width="2.4" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      {/* ✨ SHIMMER EFFECT */}
+      <div className="absolute inset-0 animate-pulse opacity-60">
+        <svg width="42" height="42" viewBox="0 0 24 24">
+          <path
+            d="M12 4v16m0 0l-6-6m6 6l6-6"
+            stroke="#f2e3b3"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </motion.div>
+  </motion.div>
+)}
+
               </motion.div>
             )}
           </AnimatePresence>
@@ -368,91 +432,94 @@ useEffect(() => {
         )}
 
   
-{/* === SECTION BRIDE & GROOM === */}
-{showCover && (
-  <motion.section
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    transition={{ duration: 1 }}
-    className="relative z-10 bg-linear-to-b from-[#f8f4ec] to-[#f2e5c9] text-[#3b2c1a] px-6 md:px-16 py-24 overflow-hidden"
-  >
-    {/* Ornamen lembut di background */}
-    <div className="absolute inset-0 bg-[url('/Asset/pattern-floral.png')] bg-repeat opacity-5"></div>
+          {/* === SECTION BRIDE & GROOM === */}
+          {showCover && (
+            <motion.section
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="relative z-10 bg-linear-to-b from-[#f8f4ec] to-[#f2e5c9] text-[#3b2c1a] px-6 md:px-16 py-24 overflow-hidden"
+            >
 
-    {/* Gambar Groom dan Bride dalam satu layout vertikal */}
-    <div className="relative flex flex-col items-center justify-center gap-16 md:gap-24">
-      
-      {/* === Groom === */}
-      <motion.div
-        initial={{ opacity: 0, y: -100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="flex flex-col items-center text-center max-w-[350px] sm:max-w-[400px]"
-      >
-        <div className="relative w-56 h-105 sm:w-64 sm:h-80 md:w-[300px] md:h-[500px] lg:w-[400px] lg:h-[805px] rounded-3xl overflow-hidden shadow-lg border-4 border-[#d6c5a5]">
-          <img
-            src="/Asset/ariefgroom.png"
-            alt="Groom"
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-50"></div>
-        </div>
+              {/* Ornamen lembut */}
+              <div className="absolute inset-0 bg-[url('/Asset/pattern-floral.png')] bg-repeat opacity-5"></div>
 
-        <div className="mt-6">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Arief Rachman Nugraha, S.T.</h2>
-          <p className="text-sm sm:text-base text-gray-700 mb-2 leading-relaxed">
-            Anak laki-laki dari <br />
-            <span className="italic text-[#6b533b]">
-              Madih, S.Sos & Suminar, S.Pd
-            </span>
-          </p>
-        </div>
-      </motion.div>
+              {/* Layout */}
+              <div className="relative flex flex-col items-center justify-center gap-16 md:gap-24">
+                
+                {/* === Groom === */}
+                <motion.div
+                  initial={{ opacity: 0, y: -100 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                  className="flex flex-col items-center text-center max-w-[350px] sm:max-w-[400px]"
+                >
+                  <div className="relative w-56 h-72 mx-auto overflow-hidden rounded-full border border-gray-400 shadow-lg mt-10">
+                        <Image
+                          src="/Asset/ariefbridge.png"
+                          alt="Groom"
+                          fill
+                          quality={60}
+                          loading="lazy"
+                          className="object-cover"
+                        />
+                      </div>
 
-      {/* === Bride === */}
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="flex flex-col items-center text-center max-w-[350px] sm:max-w-[400px]"
-      >
-        <div className="relative w-56 h-100 sm:w-64 sm:h-80 md:w-[300px] md:h-[400px] lg:w-[400px] lg:h-[800px] rounded-3xl overflow-hidden shadow-lg border-4 border-[#d6c5a5]">
-          <img
-            src="/Asset/AsriBride.png"
-            alt="Bride"
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-50"></div>
-        </div>
+                  <div className="mt-6">
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-2">Arief Rachman Nugraha, S.T.</h2>
+                    <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                      Anak laki-laki dari <br />
+                      <span className="italic text-[#6b533b]">
+                        Madih, S.Sos & Suminar, S.Pd
+                      </span>
+                    </p>
+                  </div>
+                </motion.div>
 
-        <div className="mt-6">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Asri Cikita Putri, S.Ds.</h2>
-          <p className="text-sm sm:text-base text-gray-700 mb-2 leading-relaxed">
-            Anak perempuan dari <br />
-            <span className="italic text-[#6b533b]">
-              Drs. Agus Milad Jamal & Drg. Rita Febriyanti
-            </span>
-          </p>
-        </div>
-      </motion.div>
-    </div>
+                {/* === Bride === */}
+                <motion.div
+                  initial={{ opacity: 0, y: 100 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                  className="flex flex-col items-center text-center max-w-[350px] sm:max-w-[400px]"
+                >
+                  {/* === BRIDE PHOTO === */}
+                      <div className="relative w-56 h-72 mx-auto overflow-hidden rounded-full border border-gray-400 shadow-lg">
+                        <Image
+                          src="/Asset/AsriBride.png"
+                          alt="Bride"
+                          fill
+                          loading="lazy"
+                          quality={60}
+                          className="object-cover object-top"
+                        />
+                      </div>
 
-    {/* Caption bawah */}
-    <motion.p
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ delay: 0.3, duration: 1 }}
-      className="text-center mt-16 text-sm sm:text-base text-gray-600 italic"
-    >
-      “Dua hati yang saling mencintai, kini bersatu dalam satu janji suci.”
-    </motion.p>
-  </motion.section>
-)}
+                  <div className="mt-6">
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-2">Asri Cikita Putri, S.Ds.</h2>
+                    <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                      Anak perempuan dari <br />
+                      <span className="italic text-[#6b533b]">
+                        Drs. Agus Milad Jamal & Drg. Rita Febriyanti
+                      </span>
+                    </p>
+                  </div>
+                </motion.div>
 
+              </div>
 
+              {/* Caption bawah */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 1 }}
+                className="text-center mt-16 text-sm sm:text-base text-gray-600 italic"
+              >
+                “Dua hati yang saling mencintai, kini bersatu dalam satu janji suci.”
+              </motion.p>
 
-
-
+            </motion.section>
+          )}
 
 
         {/* === SECTION OUR LOVE STORY === */}
@@ -490,12 +557,14 @@ useEffect(() => {
                 transition={{ duration: 1 }}
               >
                 {/* Foto dalam bingkai lengkung */}
-                <div className="w-56 h-72 mx-auto mb-8 rounded-t-[120px] rounded-b-[20px] overflow-hidden border-[3px] border-[#b08b4f] shadow-lg">
-                  <img
-                    src="/Asset/loveStory.png"
-                    alt="Love Story"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  />
+                <div className="relative w-56 h-72 mx-auto mb-8 rounded-t-[120px] rounded-b-[20px] overflow-hidden border-[3px] border-[#b08b4f] shadow-lg">
+                <Image
+                  src="/Asset/loveStory.png"
+                  alt="Love Story"
+                  fill
+                  quality={100}
+                  className="object-cover"
+                />
                 </div>
 
                 {/* Tahun & Cerita */}
@@ -727,11 +796,13 @@ useEffect(() => {
             onClick={() => isMobile && setSelectedIndex(i)} // ✅ aktif hanya di mobile
             className="relative min-w-[200px] sm:min-w-[300px] md:min-w-[400px] h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-3xl shadow-md border border-[#d6c5a5] hover:shadow-lg transition-all duration-500"
           >
-            <img
-              src={src}
-              alt={`Gallery ${i + 1}`}
-              className="w-full h-full object-cover hover:scale-110 transition-transform duration-700 cursor-pointer"
-            />
+            <Image
+                src={src}
+                alt={`Gallery ${i + 1}`}
+                fill
+                sizes="400px"
+                className="object-cover hover:scale-110 transition-transform duration-700 cursor-pointer"
+              />
             <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-700 flex items-end justify-center pb-4">
               <p className="text-white text-xs italic">
                 Momen {i + 1} yang penuh cinta 💕
