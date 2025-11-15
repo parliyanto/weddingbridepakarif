@@ -353,7 +353,7 @@ useEffect(() => {
   animate={{ opacity: 1, y: 0 }}
   exit={{ opacity: 0 }}
   transition={{ duration: 1 }}
-  className={`absolute bottom-24 md:bottom-10 left-1/2 -translate-x-1/2 z-20 ${
+  className={`absolute bottom-30 md:bottom-10 left-1/2 -translate-x-1/2 z-20 ${
     scrollDownHidden ? "opacity-0" : "opacity-100"
   } transition-opacity duration-700`}
 >
