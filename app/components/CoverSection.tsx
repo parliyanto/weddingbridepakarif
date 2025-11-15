@@ -126,7 +126,6 @@ const handleOpenInvitation = () => {
     "/Asset/gallery7.png",
     "/Asset/gallery8.png",
     "/Asset/gallery9.png",
-    "/Asset/gallery11.png",
   ];
 
 // 📱 Deteksi ukuran layar
@@ -242,17 +241,18 @@ useEffect(() => {
     >
         {/* Background photo (colored) */}
         <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-90"
-          style={{
-            backgroundImage: "url('/Asset/cover.png')",
-            backgroundSize: "cover",  // Memastikan gambar tidak terpotong
-            backgroundPosition: "center",
- 
-          }}
-        ></div>
+          <Image
+            src="/Asset/cover.png"
+            alt="Cover"
+            fill
+            priority
+            className="object-cover object-center opacity-90"
+          />
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"></div>
         </div>
+
+
+
 
         {/* === COVER / AYAT / BRIDE & GROOM === */}
         <div className="relative z-10 flex flex-col items-center justify-end text-center p-8 min-h-screen">
@@ -346,62 +346,48 @@ useEffect(() => {
                 </p>
                 {showCover && (
  <motion.div
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 1 }}
-    className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 ${
-      scrollDownHidden ? "opacity-0" : "opacity-100"
-    } transition-opacity duration-700`}
-  >
-    <motion.div
-      animate={{ y: [0, 12, 0] }}
-      transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-      className="cursor-pointer relative"
-      onClick={() =>
-        window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
-      }
-    >
-      {/* GOLD ELEGANT ARROW */}
-      <svg 
-        width="42" 
-        height="42" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-        className="drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]"
-      >
-        <path 
-          d="M12 4v16m0 0l-6-6m6 6l6-6" 
-          stroke="#d8b86b" 
-          stroke-width="2.4" 
-          stroke-linecap="round" 
-          stroke-linejoin="round"
-        />
-      </svg>
-
-      {/* ✨ SHIMMER EFFECT */}
-      <div className="absolute inset-0 animate-pulse opacity-60">
-        <svg
-  width="42"
-  height="42"
-  viewBox="0 0 24 24"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  className="drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]"
+  initial={{ opacity: 0, y: 10 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0 }}
+  transition={{ duration: 1 }}
+  className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 ${
+    scrollDownHidden ? "opacity-0" : "opacity-100"
+  } transition-opacity duration-700`}
 >
-  <path
-    d="M12 4v16m0 0l-6-6m6 6l6-6"
-    stroke="#d8b86b"
-    strokeWidth={2.4}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-</svg>
+  <motion.div
+    animate={{ y: [0, 12, 0] }}
+    transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+    className="cursor-pointer"
+    onClick={() => {
+  const next = document.getElementById("section-ayat");
+  next?.scrollIntoView({ behavior: "smooth" });
+}}
 
-      </div>
-    </motion.div>
+  >
+    <svg
+      width="48"
+      height="48"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M6 7l6 6 6-6"
+        stroke="#d8b86b"
+        strokeWidth={2.4}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6 13l6 6 6-6"
+        stroke="#d8b86b"
+        strokeWidth={2.4}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   </motion.div>
+</motion.div>
+
 )}
 
               </motion.div>
@@ -412,6 +398,7 @@ useEffect(() => {
         {/* === SECTION AYAT === */}
         {showCover && (
           <motion.section
+            id="section-ayat"
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
@@ -680,7 +667,7 @@ useEffect(() => {
               Acara Unduh Mantu
             </h3>
             <p className="text-sm font-medium">Minggu, 14 Desember 2025</p>
-            <p className="text-sm font-semibold">11:00 - 16:00</p>
+            <p className="text-sm font-semibold">11:00 - 16:00 WIB</p>
             <p className="text-sm text-gray-700">PT Mustika Ratu</p>
             <div className="border-t border-[#b08b4f]/50 w-24 mx-auto mt-2"></div>
           </motion.div>
@@ -693,7 +680,7 @@ useEffect(() => {
             className="mb-10 overflow-hidden rounded-2xl border border-[#d6c5a5]/50 shadow-sm"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253879.6217361549!2d106.58073806744822!3d-6.148278420914985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed2f94de1bc9%3A0x40df2a2b5c59cfb3!2sPT%20Mustika%20Ratu!5e0!3m2!1sid!2sid!4v1762534950205!5m2!1sid!2sid"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253790.94395135355!2d106.8720327343022!3d-6.331347268848439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed8bc493e541%3A0xc08cc4ec2412a8e7!2sPT.%20Mustika%20Ratu%2C%20Tbk%20-%20Head%20Office!5e0!3m2!1sid!2sid!4v1763223672937!5m2!1sid!2sid"
               width="100%"
               height="300"
               style={{ border: 0 }}
@@ -723,7 +710,7 @@ useEffect(() => {
             {/* Tombol Aksi */}
             <div className="flex justify-center gap-4 mt-4">
               <a
-                href="https://maps.app.goo.gl/HJUQ6oRAfDdQthBL8"
+                href="https://maps.app.goo.gl/vBMknDszpMDFakPD7"
                 target="_blank"
                 className="bg-[#b08b4f] hover:bg-[#9b773c] transition px-4 py-2 rounded-full text-white text-xs font-semibold flex items-center gap-2"
               >
