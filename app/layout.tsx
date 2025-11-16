@@ -16,6 +16,13 @@ export const metadata = {
   title: "Undangan Digital Unduh Mantu | Arief & Asri",
   openGraph: {
     title: "Undangan Digital Unduh Mantu | Arief & Asri",
+    images: [
+      {
+        url: "https://weddingbride-asrief.vercel.app/Asset/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 
