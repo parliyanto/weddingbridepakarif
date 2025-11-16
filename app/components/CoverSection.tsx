@@ -811,7 +811,16 @@ useEffect(() => {
   ))}
 
   {/* Pembatas anti ruang kosong */}
-  <div className="min-w-[420px] h-[300px] sm:h-[400px] md:h-[500px]" />
+  {/* === PEMBATAS RESPONSIF === */}
+<div
+  className="
+    min-w-[200px]
+    sm:min-w-[300px]
+    md:min-w-[400px]
+    h-[300px] sm:h-[400px] md:h-[500px]
+  "
+/>
+
 
 </motion.div>
 
