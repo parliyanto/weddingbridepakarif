@@ -18,7 +18,7 @@ export const metadata = {
     title: "Undangan Digital Unduh Mantu | Arief & Asri",
     images: [
       {
-        url: "https://weddingbride-asrief.vercel.app/Asset/og-image.jpg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
       },
