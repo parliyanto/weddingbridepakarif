@@ -36,7 +36,7 @@ export default function CoverSectionWrapper() {
   const [isMobile, setIsMobile] = useState(false);
   const [showCover, setShowCover] = useState<boolean>(false);
   const [guestName, setGuestName] = useState<string>("");
-
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -202,21 +202,38 @@ useEffect(() => {
   e.preventDefault();
   setLoading(true);
 
+  // Cek apakah sudah submit sebelumnya
+  const { data: existing } = await supabase
+    .from("guest_wishes")
+    .select("id")
+    .eq("guest_name", guestName)
+    .maybeSingle();
+
+  if (existing) {
+    setHasSubmitted(true);
+    setLoading(false);
+    return;
+  }
+
+  // Insert baru
   const { error } = await supabase
     .from("guest_wishes")
     .insert([{ guest_name: guestName, message }]);
 
   setLoading(false);
 
-  if (error) {
-    alert("Gagal mengirim ucapan 😢");
-  } else {
-    alert("Ucapan terkirim 🥰");
-    setGuestName("");
-    setMessage("");
-    fetchWishes(); // 🔁 Tambahkan baris ini biar langsung reload data
-  }
+  if (!error) {
+  setHasSubmitted(true);
+  setMessage("");
+
+  // fetch ulang biar daftar ucapan langsung update
+  fetchWishes();
+}
+
 };
+
+
+
 
 const [scrollDownHidden, setScrollDownHidden] = useState(false);
 
@@ -902,50 +919,60 @@ useEffect(() => {
       </div>
 
       {/* Form */}
-      <motion.form
-        onSubmit={handleSubmit}
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-        className="relative max-w-lg mx-auto bg-[#fffaf2] border border-[#d6c5a5] rounded-3xl shadow-md p-6 text-left mb-16"
-      >
-        <label className="block text-sm font-semibold text-[#6b533b] mb-1">
-          Nama Tamu:
-        </label>
-        <input
-          type="text"
-          value={guestName}
-          readOnly={!!guestName} // Jika nama tamu sudah ada, buat field ini hanya baca
-          onChange={(e) => setGuestName(e.target.value)}
-          placeholder="Masukkan nama Anda"
-          className="w-full mb-4 border border-[#d6c5a5] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#b08b4f]/50"
-        />
+      {hasSubmitted ? (
+  // === UI Terima Kasih ===
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8 }}
+    className="relative max-w-lg mx-auto bg-[#fffaf2] border border-[#d6c5a5] rounded-3xl shadow-md p-6 text-center mb-16"
+  >
+    <p className="text-lg font-semibold text-[#6b533b] leading-relaxed">
+      Terima kasih banyak atas ucapan dan doa yang diberikan 🥰
+    </p>
+  </motion.div>
+) : (
+  // === FORM UCAPAN ===
+  <motion.form
+    onSubmit={handleSubmit}
+    initial={{ opacity: 0, scale: 0.9 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8 }}
+    className="relative max-w-lg mx-auto bg-[#fffaf2] border border-[#d6c5a5] rounded-3xl shadow-md p-6 text-left mb-16"
+  >
+    <label className="block text-sm font-semibold text-[#6b533b] mb-1">
+      Nama Tamu:
+    </label>
+    <input
+      type="text"
+      value={guestName}
+      readOnly
+      className="w-full mb-4 border border-[#d6c5a5] rounded-md px-3 py-2 text-sm"
+    />
 
-        <label className="block text-sm font-semibold text-[#6b533b] mb-1">
-          Ucapan & Doa:
-        </label>
-        <textarea
-          rows={4}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Tulis ucapan dan doa terbaik Anda..."
-          className="w-full border border-[#d6c5a5] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#b08b4f]/50"
-        ></textarea>
+    <label className="block text-sm font-semibold text-[#6b533b] mb-1">
+      Ucapan & Doa:
+    </label>
+    <textarea
+      rows={4}
+      value={message}
+      onChange={(e) => setMessage(e.target.value)}
+      placeholder="Tulis ucapan dan doa terbaik Anda..."
+      className="w-full border border-[#d6c5a5] rounded-md px-3 py-2 text-sm"
+    ></textarea>
 
-        <motion.button
-          type="submit"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          disabled={loading}
-          className={`mt-4 w-full py-2 rounded-full font-semibold text-sm transition-all duration-300 shadow-sm ${
-            loading
-              ? "bg-gray-400 text-white cursor-not-allowed"
-              : "bg-[#b08b4f] hover:bg-[#9b773c] text-white"
-          }`}
-        >
-          {loading ? "Mengirim..." : "💌 Beri Ucapan"}
-        </motion.button>
-      </motion.form>
+    <motion.button
+      type="submit"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.97 }}
+      disabled={loading}
+      className="mt-4 w-full py-2 rounded-full font-semibold bg-[#b08b4f] hover:bg-[#9b773c] text-white text-sm"
+    >
+      {loading ? "Mengirim..." : "💌 Beri Ucapan"}
+    </motion.button>
+  </motion.form>
+)}
+
 
       {/* Daftar ucapan */}
       <motion.div
