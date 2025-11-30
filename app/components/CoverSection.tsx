@@ -1047,12 +1047,12 @@ useEffect(() => {
       <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent"></div>
 
       {/* 🔹 Teks penutup */}
-      <div className="relative z-10 px-6 max-w-2xl text-white">
+     <div className="relative z-10 px-6 max-w-2xl text-white translate-y-16 md:translate-y-24">
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-sm md:text-base leading-relaxed mt-48 mb-6"
+          className="text-sm md:text-base leading-relaxed mt-42 mb-6"
         >
           Menjadi sebuah kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i
           berkenan hadir dalam hari bahagia kami. Terima kasih atas segala
