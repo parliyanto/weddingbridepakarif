@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💍 Digital Wedding Invitation – Asrief
 
-## Getting Started
+A modern, elegant, and interactive digital wedding invitation website designed to deliver a beautiful online experience for guests.
 
-First, run the development server:
+🔗 **Live Demo:**  
+https://wedding-asrief.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📌 Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project is a fully responsive digital wedding invitation website created to replace traditional printed invitations with an elegant and interactive online experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The website presents wedding information in a cinematic and user-friendly way, allowing guests to access event details easily through any device.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 Purpose
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The goal of this project is to:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Provide a modern digital wedding invitation solution
+- Deliver an engaging and emotional online experience
+- Present wedding event details in a clean and elegant format
+- Enable easy sharing through URL links
+- Demonstrate frontend UI/UX capability
 
-## Deploy on Vercel
+This project simulates a real-world client wedding invitation website.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ✨ Key Features
+
+- Elegant hero section
+- Responsive design (mobile & desktop)
+- Smooth scrolling animation
+- Event detail section (date, location, schedule)
+- Gallery showcase
+- Background music / interactive elements (if applicable)
+- Clean typography and aesthetic layout
+- Deployed and accessible online
+
+---
+
+## 🎨 Design Approach
+
+The website design focuses on:
+
+- Minimalist elegance
+- Romantic visual atmosphere
+- Emotional storytelling structure
+- Clear information hierarchy
+- Smooth and modern transitions
+
+The layout ensures both aesthetic beauty and usability.
+
+---
+
+## 🛠️ Tech Stack
+
+- HTML / CSS / JavaScript (Update if using React or framework)
+- Responsive Layout Design
+- Vercel (Deployment)
+
+---
+
+## 🚀 Potential Enhancements
+
+- RSVP form with database integration
+- Guest attendance tracking
+- Countdown timer to wedding day
+- Admin panel for content editing
+- Photo gallery management system
+- Custom theme personalization
+- Multi-language support
+
+---
+
+## 📷 Project Status
+
+✔ Completed  
+✔ Deployed  
+✔ Portfolio Ready  
+🔄 Open for feature expansion  
+
+---
+
+## 📄 License
+
+This project is created for educational and portfolio purposes.
